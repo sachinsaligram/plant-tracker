@@ -4,7 +4,11 @@ const config: Config = {
   // Component tests should add `/** @jest-environment jsdom */` as the first line
   testEnvironment: 'node',
   transform: { '^.+\\.tsx?$': ['ts-jest', { tsconfig: { jsx: 'react-jsx' } }] },
-  moduleNameMapper: { '^@/(.*)$': '<rootDir>/$1' },
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+    '^next-auth$': '<rootDir>/__mocks__/next-auth.ts',
+    '^next-auth/providers/google$': '<rootDir>/__mocks__/next-auth/providers/google.ts',
+  },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }
 
