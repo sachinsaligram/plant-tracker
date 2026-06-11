@@ -21,10 +21,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true
     },
     async session({ session }) {
+      if (!session.user.email) return session
       const db = getDb()
       const result = await db.execute({
         sql: 'SELECT id FROM users WHERE email = ?',
-        args: [session.user.email!],
+        args: [session.user.email],
       })
       session.user.id = result.rows[0]?.id as string
       return session
