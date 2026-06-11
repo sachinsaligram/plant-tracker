@@ -5,6 +5,6 @@ export function nextCareDate(
 ): string {
   const base = lastAt ? new Date(lastAt) : now
   const next = new Date(base)
-  next.setDate(next.getDate() + intervalDays)
+  next.setUTCDate(next.getUTCDate() + intervalDays)
   return next.toISOString()
 }
