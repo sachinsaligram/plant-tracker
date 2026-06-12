@@ -9,9 +9,13 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const formData = await req.formData()
-  const file = formData.get('file') as File
-  const plantId = formData.get('plant_id') as string
+  const file = formData.get('file')
+  const plantId = formData.get('plant_id')
   const isPrimary = formData.get('is_primary') === 'true' ? 1 : 0
+
+  if (!(file instanceof File)) return NextResponse.json({ error: 'Missing file' }, { status: 400 })
+  if (!plantId || typeof plantId !== 'string') return NextResponse.json({ error: 'Missing plant_id' }, { status: 400 })
+  if (!file.type.startsWith('image/')) return NextResponse.json({ error: 'File must be an image' }, { status: 400 })
 
   const blobUrl = await uploadPhoto(file, session.user.id)
   const id = ulid()
