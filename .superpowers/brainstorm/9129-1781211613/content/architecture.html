@@ -1,0 +1,63 @@
+<h2>System Architecture</h2>
+<p class="subtitle">How the pieces fit together — does this look right?</p>
+
+<div style="font-family:sans-serif;color:#e8f5e9;max-width:720px;margin:0 auto">
+
+  <!-- Top layer: Browser -->
+  <div style="background:#1b3a1b;border:1px solid #3a6e3a;border-radius:10px;padding:16px;margin-bottom:12px">
+    <div style="color:#81c784;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Browser (PWA)</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <div style="background:#243d24;border-radius:6px;padding:8px 12px;font-size:12px;border:1px solid #3a6e3a">📋 Plant Feed</div>
+      <div style="background:#243d24;border-radius:6px;padding:8px 12px;font-size:12px;border:1px solid #3a6e3a">📷 Identify Flow</div>
+      <div style="background:#243d24;border-radius:6px;padding:8px 12px;font-size:12px;border:1px solid #3a6e3a">🌿 Plant Detail + Tips</div>
+      <div style="background:#243d24;border-radius:6px;padding:8px 12px;font-size:12px;border:1px solid #3a6e3a">🔔 Service Worker</div>
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div style="text-align:center;color:#4caf50;font-size:20px;margin:4px 0">↕</div>
+
+  <!-- Middle layer: Next.js on Vercel -->
+  <div style="background:#1b3a1b;border:1px solid #3a6e3a;border-radius:10px;padding:16px;margin-bottom:12px">
+    <div style="color:#81c784;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Next.js — Vercel (App Router + API Routes)</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div style="background:#243d24;border-radius:6px;padding:6px 10px;font-size:11px;border:1px solid #2e5e2e">/api/identify<br><span style="color:#9e9e9e;font-size:10px">Claude Vision</span></div>
+      <div style="background:#243d24;border-radius:6px;padding:6px 10px;font-size:11px;border:1px solid #2e5e2e">/api/tips/[id]<br><span style="color:#9e9e9e;font-size:10px">Streaming tips</span></div>
+      <div style="background:#243d24;border-radius:6px;padding:6px 10px;font-size:11px;border:1px solid #2e5e2e">/api/plants<br><span style="color:#9e9e9e;font-size:10px">CRUD</span></div>
+      <div style="background:#243d24;border-radius:6px;padding:6px 10px;font-size:11px;border:1px solid #2e5e2e">/api/cron/notify<br><span style="color:#9e9e9e;font-size:10px">Daily scheduler</span></div>
+      <div style="background:#243d24;border-radius:6px;padding:6px 10px;font-size:11px;border:1px solid #2e5e2e">/api/auth<br><span style="color:#9e9e9e;font-size:10px">NextAuth</span></div>
+    </div>
+  </div>
+
+  <!-- Arrow down + sideways -->
+  <div style="text-align:center;color:#4caf50;font-size:20px;margin:4px 0">↓</div>
+
+  <!-- Bottom layer: External services -->
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+
+    <div style="background:#1b3a1b;border:1px solid #3a6e3a;border-radius:10px;padding:14px;flex:1;min-width:140px">
+      <div style="color:#81c784;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Turso</div>
+      <div style="font-size:11px;color:#c8e6c9">users<br>plants<br>care_logs<br>plant_photos<br>push_subscriptions</div>
+    </div>
+
+    <div style="background:#1b3a1b;border:1px solid #3a6e3a;border-radius:10px;padding:14px;flex:1;min-width:140px">
+      <div style="color:#81c784;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Vercel Blob</div>
+      <div style="font-size:11px;color:#c8e6c9">Plant photos<br>(identify snapshots<br>+ progress timeline)</div>
+    </div>
+
+    <div style="background:#1b3a1b;border:1px solid #3a6e3a;border-radius:10px;padding:14px;flex:1;min-width:140px">
+      <div style="color:#81c784;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Anthropic API</div>
+      <div style="font-size:11px;color:#c8e6c9">Plant ID (vision)<br>Streaming care tips<br>Notification nudges</div>
+    </div>
+
+    <div style="background:#1b3a1b;border:1px solid #3a6e3a;border-radius:10px;padding:14px;flex:1;min-width:140px">
+      <div style="color:#81c784;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Web Push</div>
+      <div style="font-size:11px;color:#c8e6c9">VAPID push<br>via service worker<br>(no 3rd party)</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:16px;background:#243d24;border-radius:8px;padding:12px;font-size:12px;color:#a5d6a7;border-left:3px solid #4caf50">
+    <strong>Cron:</strong> Vercel Cron fires daily → checks plants due for care → calls Claude for smart adjustments → sends Web Push notifications
+  </div>
+</div>

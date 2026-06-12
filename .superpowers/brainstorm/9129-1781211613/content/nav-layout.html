@@ -1,0 +1,85 @@
+<h2>How should the app be navigated?</h2>
+<p class="subtitle">Pick the navigation pattern that feels right for a plant tracker PWA</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a2e1a;border-radius:8px;padding:12px;font-family:sans-serif;color:#e8f5e9;min-height:200px;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="background:#2e4d2e;border-radius:6px;padding:10px;font-size:13px;color:#a5d6a7;text-align:center;font-weight:600">🌿 My Plants</div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1;margin-top:10px">
+          <div style="background:#2a3d2a;border-radius:4px;padding:8px;font-size:12px;display:flex;align-items:center;gap:8px"><span>🪴</span> Monstera Deliciosa</div>
+          <div style="background:#2a3d2a;border-radius:4px;padding:8px;font-size:12px;display:flex;align-items:center;gap:8px"><span>🌵</span> Golden Barrel Cactus</div>
+          <div style="background:#2a3d2a;border-radius:4px;padding:8px;font-size:12px;display:flex;align-items:center;gap:8px"><span>🌱</span> Peace Lily</div>
+        </div>
+        <div style="display:flex;justify-content:space-around;margin-top:10px;padding-top:8px;border-top:1px solid #3a5a3a">
+          <div style="text-align:center;font-size:10px;color:#81c784"><div>🌿</div>Plants</div>
+          <div style="text-align:center;font-size:10px;color:#a5d6a7"><div>📷</div>Identify</div>
+          <div style="text-align:center;font-size:10px;color:#a5d6a7"><div>🔔</div>Reminders</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Bottom Tab Navigation</h3>
+      <p>Three persistent tabs: Plants list, Camera/Identify, Reminders. Familiar mobile pattern, easy to switch contexts.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a2e1a;border-radius:8px;padding:12px;font-family:sans-serif;color:#e8f5e9;min-height:200px;display:flex;flex-direction:column;">
+        <div style="background:#2e4d2e;border-radius:6px;padding:10px;font-size:13px;color:#a5d6a7;text-align:center;font-weight:600">🌿 Plant Tracker</div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:1;margin-top:10px;overflow:hidden">
+          <div style="background:#2a3d2a;border-radius:4px;padding:10px;font-size:12px;display:flex;justify-content:space-between;align-items:center">
+            <span>🪴 Monstera</span>
+            <span style="background:#4caf50;border-radius:10px;padding:2px 6px;font-size:10px">Water in 2d</span>
+          </div>
+          <div style="background:#2a3d2a;border-radius:4px;padding:10px;font-size:12px;display:flex;justify-content:space-between;align-items:center">
+            <span>🌵 Cactus</span>
+            <span style="background:#ff7043;border-radius:10px;padding:2px 6px;font-size:10px">Water today!</span>
+          </div>
+          <div style="background:#2a3d2a;border-radius:4px;padding:10px;font-size:12px;display:flex;justify-content:space-between;align-items:center">
+            <span>🌱 Peace Lily</span>
+            <span style="background:#4caf50;border-radius:10px;padding:2px 6px;font-size:10px">Healthy</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <div style="background:#4caf50;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px">+</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Single Feed + FAB</h3>
+      <p>All plants in one scrollable list with status badges. A floating "+" button opens add/identify flow. Minimal navigation.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#1a2e1a;border-radius:8px;padding:12px;font-family:sans-serif;color:#e8f5e9;min-height:200px;display:flex;flex-direction:column;">
+        <div style="display:flex;justify-content:space-between;align-items:center;background:#2e4d2e;border-radius:6px;padding:8px 10px;font-size:13px;color:#a5d6a7;font-weight:600">
+          <span>☰</span><span>🌿 Plant Tracker</span><span>🔔</span>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex:1">
+          <div style="background:#2a3d2a;border-radius:6px;padding:8px;flex:1;font-size:11px">
+            <div style="color:#81c784;margin-bottom:4px;font-weight:600">Today</div>
+            <div style="margin-bottom:4px">💧 Water Monstera</div>
+            <div>🌡️ Check Cactus</div>
+          </div>
+          <div style="background:#2a3d2a;border-radius:6px;padding:8px;flex:1;font-size:11px">
+            <div style="color:#81c784;margin-bottom:4px;font-weight:600">This Week</div>
+            <div style="margin-bottom:4px">🪴 Repot Lily</div>
+            <div>💊 Fertilize all</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <div style="background:#2a3d2a;border-radius:4px;padding:6px;flex:1;font-size:10px;text-align:center">📷 Identify</div>
+          <div style="background:#4caf50;border-radius:4px;padding:6px;flex:1;font-size:10px;text-align:center">+ Add Plant</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Dashboard Home</h3>
+      <p>Home screen shows today's tasks and upcoming care. Side drawer or top nav for full plant list. Action-first design.</p>
+    </div>
+  </div>
+</div>
