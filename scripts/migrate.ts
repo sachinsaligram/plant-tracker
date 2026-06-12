@@ -1,4 +1,6 @@
 import { readFileSync } from 'fs'
+import { config } from 'dotenv'
+config({ path: '.env.local' })
 import { getDb } from '../lib/db'
 
 const sql = readFileSync('./lib/schema.sql', 'utf8')
