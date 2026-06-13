@@ -1,15 +1,10 @@
 import NextAuth from 'next-auth'
-import Google from 'next-auth/providers/google'
+import { authConfig } from '../auth.config'
 import { getDb } from './db'
 import { ulid } from './ulid'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-    }),
-  ],
+  ...authConfig,
   callbacks: {
     async signIn({ user }) {
       const db = getDb()
