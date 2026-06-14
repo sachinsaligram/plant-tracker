@@ -87,21 +87,37 @@ export function IdentifyFlow() {
         {identifying ? (
           <p className="text-gray-500 animate-pulse">Identifying plant...</p>
         ) : (
-          <label
-            htmlFor="photo-input"
-            className="cursor-pointer flex flex-col items-center gap-3 border-2 border-dashed border-green-400 rounded-2xl p-12 text-green-600 hover:border-green-600"
-          >
-            <span className="text-5xl" aria-hidden>📷</span>
-            <span className="font-medium">Take a photo</span>
-            <input
-              id="photo-input"
-              type="file"
-              accept="image/*"
-              capture={"environment" as any}
-              className="sr-only"
-              onChange={handleFile}
-            />
-          </label>
+          <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
+            <label
+              htmlFor="photo-camera"
+              className="cursor-pointer flex flex-col items-center gap-3 border-2 border-dashed border-green-400 rounded-2xl p-8 text-green-600 hover:border-green-600"
+            >
+              <span className="text-4xl" aria-hidden>📷</span>
+              <span className="font-medium text-sm text-center">Take a photo</span>
+              <input
+                id="photo-camera"
+                type="file"
+                accept="image/*"
+                capture={"environment" as any}
+                className="sr-only"
+                onChange={handleFile}
+              />
+            </label>
+            <label
+              htmlFor="photo-gallery"
+              className="cursor-pointer flex flex-col items-center gap-3 border-2 border-dashed border-green-400 rounded-2xl p-8 text-green-600 hover:border-green-600"
+            >
+              <span className="text-4xl" aria-hidden>🖼️</span>
+              <span className="font-medium text-sm text-center">Choose from gallery</span>
+              <input
+                id="photo-gallery"
+                type="file"
+                accept="image/*"
+                className="sr-only"
+                onChange={handleFile}
+              />
+            </label>
+          </div>
         )}
         {preview && <img src={preview} alt="preview" className="w-40 h-40 object-cover rounded-xl" />}
       </div>
