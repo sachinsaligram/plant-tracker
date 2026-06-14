@@ -5,15 +5,23 @@ import { ulid } from './ulid'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
+  logger: {
+    error: (error) => console.error('[auth][error]', error),
+  },
   callbacks: {
     async signIn({ user }) {
-      const db = getDb()
-      await db.execute({
-        sql: `INSERT INTO users (id, name, email, image) VALUES (?, ?, ?, ?)
-              ON CONFLICT(email) DO UPDATE SET name=excluded.name, image=excluded.image`,
-        args: [ulid(), user.name ?? '', user.email!, user.image ?? null],
-      })
-      return true
+      try {
+        const db = getDb()
+        await db.execute({
+          sql: `INSERT INTO users (id, name, email, image) VALUES (?, ?, ?, ?)
+                ON CONFLICT(email) DO UPDATE SET name=excluded.name, image=excluded.image`,
+          args: [ulid(), user.name ?? '', user.email!, user.image ?? null],
+        })
+        return true
+      } catch (err) {
+        console.error('[auth][signIn] DB error:', err)
+        return false
+      }
     },
     async session({ session }) {
       if (!session.user.email) return session
