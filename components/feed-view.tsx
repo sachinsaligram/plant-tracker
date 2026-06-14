@@ -121,10 +121,12 @@ function PlantCard({ plant, onLogged }: { plant: PlantFeed; onLogged: () => void
     onLogged()
   }
 
+  const accentBar = isUrgent ? 'border-l-4 border-l-red-400' : isSoon ? 'border-l-4 border-l-amber-400' : ''
+
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+    <div className={`bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm ${accentBar}`}>
       <Link href={`/plants/${plant.id}`} className="flex gap-3 p-3">
-        <div className="w-16 h-16 rounded-xl overflow-hidden bg-green-50 flex-shrink-0">
+        <div className="w-16 h-16 rounded-xl overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 flex-shrink-0 shadow-sm">
           {plant.primary_photo ? (
             <Image src={plant.primary_photo} alt={plant.common_name} width={64} height={64} className="object-cover w-full h-full" />
           ) : (
@@ -132,14 +134,17 @@ function PlantCard({ plant, onLogged }: { plant: PlantFeed; onLogged: () => void
           )}
         </div>
         <div className="flex-1 min-w-0 py-0.5">
-          <p className="font-semibold text-gray-900 text-sm">{plant.common_name}</p>
+          <p className="font-bold text-gray-900 text-sm">{plant.common_name}</p>
+          {plant.scientific_name && (
+            <p className="text-xs text-gray-400 italic truncate">{plant.scientific_name}</p>
+          )}
           {last && (
-            <p className="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+            <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
               <span>📅</span> {last}
             </p>
           )}
           {next && (
-            <p className={`text-xs mt-0.5 flex items-center gap-1 ${
+            <p className={`text-xs mt-0.5 flex items-center gap-1 font-medium ${
               isUrgent ? 'text-red-500' : isSoon ? 'text-amber-500' : 'text-gray-400'
             }`}>
               <span>🔔</span> {nextCareLabel(next)}
@@ -265,10 +270,13 @@ export function FeedView({ plants }: { plants: PlantFeed[] }) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100 sticky top-0 z-10">
+      <div className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
         <div className="max-w-lg mx-auto px-4 pt-4 pb-0">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-2xl">🌿</span>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🌿</span>
+              <span className="font-bold text-green-700 text-base">Plant Tracker</span>
+            </div>
             <div className="flex gap-1">
               <button
                 onClick={() => setTab('plants')}

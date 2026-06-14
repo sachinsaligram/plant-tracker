@@ -19,18 +19,21 @@ export default async function PlantDetailPage({ params }: Params) {
       args: [params.id, session.user.id],
     }),
     db.execute({
-      sql: `SELECT 'water' AS event_type, logged_at AS date, notes, NULL AS photo_url, NULL AS product_name
+      sql: `SELECT id, 'water' AS event_type, logged_at AS date, notes,
+                   NULL AS photo_url, NULL AS product_name, NULL AS dosage, NULL AS dosage_unit
             FROM care_logs WHERE plant_id = ? AND type = 'water'
             UNION ALL
-            SELECT 'repot', logged_at, notes, NULL, NULL
+            SELECT id, 'repot', logged_at, notes, NULL, NULL, NULL, NULL
             FROM care_logs WHERE plant_id = ? AND type = 'repot'
             UNION ALL
-            SELECT 'fertilize', fl.fed_at, fl.notes, NULL,
-                   COALESCE(f.product_name, f.brand, NULL)
-            FROM fertilizer_logs fl LEFT JOIN fertilizers f ON f.id = fl.fertilizer_id
+            SELECT fl.id, 'fertilize', fl.fed_at, fl.notes, NULL,
+                   COALESCE(f.product_name, f.brand, NULL),
+                   fl.dosage, fl.dosage_unit
+            FROM fertilizer_logs fl
+            LEFT JOIN fertilizers f ON f.id = fl.fertilizer_id
             WHERE fl.plant_id = ?
             UNION ALL
-            SELECT 'photo', taken_at, NULL, blob_url, NULL
+            SELECT id, 'photo', taken_at, NULL, blob_url, NULL, NULL, NULL
             FROM plant_photos WHERE plant_id = ?
             ORDER BY date DESC
             LIMIT 60`,
