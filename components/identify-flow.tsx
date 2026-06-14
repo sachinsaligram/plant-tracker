@@ -140,7 +140,7 @@ export function IdentifyFlow() {
             <span className="text-sm text-gray-600">{label}</span>
             <input
               type={type}
-              className="border rounded-lg px-3 py-2"
+              className="border rounded-lg px-3 py-2 bg-white text-gray-900"
               value={(form as any)[key]}
               onChange={e => setForm({ ...form, [key]: type === 'number' ? +e.target.value : e.target.value })}
             />
@@ -149,7 +149,7 @@ export function IdentifyFlow() {
         <label className="flex flex-col gap-1">
           <span className="text-sm text-gray-600">Location</span>
           <select
-            className="border rounded-lg px-3 py-2"
+            className="border rounded-lg px-3 py-2 bg-white text-gray-900"
             value={form.location_preference}
             onChange={e => setForm({ ...form, location_preference: e.target.value })}
           >
