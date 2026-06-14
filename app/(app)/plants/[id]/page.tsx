@@ -51,7 +51,7 @@ export default async function PlantDetailPage({ params }: Params) {
       </div>
 
       <div className="mt-6">
-        <CareButtons plantId={params.id} onLogged={() => {}} />
+        <CareButtons plantId={params.id} />
       </div>
 
       <div className="mt-6">

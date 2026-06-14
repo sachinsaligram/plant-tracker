@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 
-type Props = { plantId: string; onLogged: () => void }
+type Props = { plantId: string; onLogged?: () => void }
 
 const BUTTONS = [
   { type: 'water', label: '💧 Water' },
@@ -20,7 +20,7 @@ export function CareButtons({ plantId, onLogged }: Props) {
       body: JSON.stringify({ plant_id: plantId, type }),
     })
     setLoading(null)
-    onLogged()
+    onLogged?.()
   }
 
   return (
