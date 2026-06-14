@@ -19,7 +19,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         })
         return true
       } catch (err) {
-        console.error('[auth][signIn] DB error:', err)
+        const e = err as any
+        console.error('[auth][signIn] name:', e?.name)
+        console.error('[auth][signIn] message:', e?.message)
+        console.error('[auth][signIn] code:', e?.code)
         return false
       }
     },
