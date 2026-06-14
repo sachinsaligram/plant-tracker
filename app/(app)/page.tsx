@@ -5,6 +5,11 @@ import Link from 'next/link'
 import { PlantCard } from '@/components/plant-card'
 import { FAB } from '@/components/fab'
 
+function daysDiff(d: string | null | undefined): number | null {
+  if (!d) return null
+  return Math.ceil((new Date(d).getTime() - Date.now()) / 86_400_000)
+}
+
 export default async function FeedPage() {
   const session = await auth()
   if (!session) redirect('/login')
@@ -19,6 +24,36 @@ export default async function FeedPage() {
     args: [session.user.id],
   })
   const plants = result.rows as any[]
+
+  // Compute status summary
+  const overdueWater = plants.filter(p => {
+    const d = daysDiff(p.next_watering_at)
+    return d !== null && d < 0
+  }).length
+  const needsWaterToday = plants.filter(p => {
+    const d = daysDiff(p.next_watering_at)
+    return d !== null && d === 0
+  }).length
+  const overdueTotal = plants.filter(p => {
+    return (
+      (daysDiff(p.next_watering_at) ?? 1) < 0 ||
+      (daysDiff(p.next_repotting_at) ?? 1) < 0 ||
+      (daysDiff(p.next_fertilizing_at) ?? 1) < 0
+    )
+  }).length
+
+  let summaryText: string | null = null
+  let summaryClass = ''
+  if (overdueTotal > 0) {
+    summaryText = `${overdueTotal} plant${overdueTotal !== 1 ? 's' : ''} need${overdueTotal === 1 ? 's' : ''} attention now`
+    summaryClass = 'bg-red-50 border-red-200 text-red-700'
+  } else if (overdueWater + needsWaterToday > 0) {
+    summaryText = `${overdueWater + needsWaterToday} plant${overdueWater + needsWaterToday !== 1 ? 's' : ''} need${overdueWater + needsWaterToday === 1 ? 's' : ''} water today`
+    summaryClass = 'bg-amber-50 border-amber-200 text-amber-700'
+  } else if (plants.length > 0) {
+    summaryText = 'All plants are on track 🎉'
+    summaryClass = 'bg-green-50 border-green-200 text-green-700'
+  }
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -59,7 +94,12 @@ export default async function FeedPage() {
           </div>
         ) : (
           <>
-            <p className="text-xs text-gray-600 font-medium uppercase tracking-wider mb-3">
+            {summaryText && (
+              <div className={`mb-4 rounded-2xl border px-4 py-3 text-sm font-medium ${summaryClass}`}>
+                {summaryText}
+              </div>
+            )}
+            <p className="text-xs text-gray-500 font-medium uppercase tracking-wider mb-3">
               {plants.length} plant{plants.length !== 1 ? 's' : ''} · sorted by next watering
             </p>
             <div className="flex flex-col gap-3">

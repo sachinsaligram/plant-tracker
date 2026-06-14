@@ -1,40 +1,63 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 type Props = { plantId: string; onLogged?: () => void }
+type CareType = 'water' | 'repot' | 'fertilize'
 
-const BUTTONS = [
-  { type: 'water', label: '💧 Water' },
-  { type: 'repot', label: '🪴 Repot' },
-  { type: 'fertilize', label: '🌱 Fertilize' },
-] as const
+const ACTIONS = [
+  { type: 'water' as CareType, emoji: '💧', label: 'Water' },
+  { type: 'repot' as CareType, emoji: '🪴', label: 'Repot' },
+  { type: 'fertilize' as CareType, emoji: '🌱', label: 'Feed' },
+]
 
 export function CareButtons({ plantId, onLogged }: Props) {
-  const [loading, setLoading] = useState<string | null>(null)
+  const router = useRouter()
+  const [loading, setLoading] = useState<CareType | null>(null)
+  const [done, setDone] = useState<CareType | null>(null)
 
-  async function log(type: 'water' | 'repot' | 'fertilize') {
+  async function log(type: CareType) {
     setLoading(type)
-    await fetch('/api/care-logs', {
+    const res = await fetch('/api/care-logs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ plant_id: plantId, type }),
     })
     setLoading(null)
-    onLogged?.()
+    if (res.ok) {
+      setDone(type)
+      setTimeout(() => setDone(null), 2500)
+      router.refresh()
+      onLogged?.()
+    }
   }
 
   return (
-    <div className="flex gap-3">
-      {BUTTONS.map(({ type, label }) => (
-        <button
-          key={type}
-          onClick={() => log(type)}
-          disabled={loading === type}
-          className="flex-1 py-3 rounded-xl bg-white border border-gray-200 text-sm font-medium hover:bg-green-50 disabled:opacity-50"
-        >
-          {loading === type ? '...' : label}
-        </button>
-      ))}
+    <div className="flex gap-2">
+      {ACTIONS.map(({ type, emoji, label }) => {
+        const isLoading = loading === type
+        const isDone = done === type
+        return (
+          <button
+            key={type}
+            onClick={() => log(type)}
+            disabled={!!loading}
+            className={`flex-1 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 active:scale-95 ${
+              isDone
+                ? 'bg-green-500 text-white shadow-sm'
+                : 'bg-white border border-gray-200 text-gray-700 hover:border-green-400 hover:bg-green-50'
+            } disabled:opacity-60`}
+          >
+            {isLoading ? (
+              <span className="inline-block animate-spin">⏳</span>
+            ) : isDone ? (
+              '✓ Done!'
+            ) : (
+              <>{emoji} {label}</>
+            )}
+          </button>
+        )
+      })}
     </div>
   )
 }

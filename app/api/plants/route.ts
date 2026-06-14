@@ -20,6 +20,9 @@ export async function GET() {
   return NextResponse.json(result.rows)
 }
 
+const VALID_SOIL_TYPES = ['potting mix', 'cactus mix', 'orchid mix', 'custom'] as const
+type SoilType = typeof VALID_SOIL_TYPES[number]
+
 export async function POST(req: Request) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -29,6 +32,20 @@ export async function POST(req: Request) {
   const now = new Date().toISOString()
   const db = getDb()
 
+  // Create a soil record if soil type was provided
+  let soilId: string | null = body.soil_id ?? null
+  const soilType = body.soil_type as string | undefined
+  if (soilType && !soilId) {
+    const resolvedType: SoilType = (VALID_SOIL_TYPES as readonly string[]).includes(soilType)
+      ? soilType as SoilType
+      : 'custom'
+    soilId = ulid()
+    await db.execute({
+      sql: `INSERT INTO soils (id, user_id, type, mix_description) VALUES (?,?,?,?)`,
+      args: [soilId, session.user.id, resolvedType, soilType],
+    })
+  }
+
   await db.execute({
     sql: `INSERT INTO plants (
             id, user_id, common_name, scientific_name, soil_id, location,
@@ -37,7 +54,7 @@ export async function POST(req: Request) {
           ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
     args: [
       id, session.user.id, body.common_name, body.scientific_name ?? null,
-      body.soil_id ?? null, body.location,
+      soilId, body.location,
       body.watering_interval_days, body.repotting_interval_days, body.fertilizing_interval_days,
       nextCareDate(null, body.watering_interval_days),
       nextCareDate(null, body.repotting_interval_days),

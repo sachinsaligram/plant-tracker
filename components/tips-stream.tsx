@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { Markdown } from './markdown'
 
 export function TipsStream({ plantId }: { plantId: string }) {
   const [text, setText] = useState('')
@@ -20,7 +21,7 @@ export function TipsStream({ plantId }: { plantId: string }) {
   }
   return (
     <div className="bg-green-50 rounded-xl p-4 text-sm text-gray-700 leading-relaxed">
-      {text}
+      <Markdown text={text} />
     </div>
   )
 }
