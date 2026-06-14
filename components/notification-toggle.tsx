@@ -31,7 +31,7 @@ export function NotificationToggle() {
   }
 
   if (status === 'loading') return null
-  if (status === 'unsupported') return <p className="text-sm text-gray-400">Push not supported on this browser.</p>
+  if (status === 'unsupported') return <p className="text-sm text-gray-500">Push not supported on this browser.</p>
   if (status === 'denied') return <p className="text-sm text-red-500">Notifications blocked. Enable in browser settings.</p>
   if (status === 'subscribed') return <p className="text-sm text-green-600">✓ Notifications enabled</p>
   return (

@@ -16,7 +16,7 @@ export function TipsStream({ plantId }: { plantId: string }) {
   }, [plantId])
 
   if (!text && !done) {
-    return <p className="text-gray-400 text-sm animate-pulse">Loading tip...</p>
+    return <p className="text-gray-500 text-sm animate-pulse">Loading tip...</p>
   }
   return (
     <div className="bg-green-50 rounded-xl p-4 text-sm text-gray-700 leading-relaxed">

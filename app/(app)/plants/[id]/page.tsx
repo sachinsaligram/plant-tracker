@@ -41,7 +41,7 @@ export default async function PlantDetailPage({ params }: Params) {
           <p className="text-gray-700">{fmt(plant.next_watering_at as string)}</p>
         </div>
         <div className="bg-yellow-50 rounded-xl p-3">
-          <p className="text-yellow-700 font-medium">Next repot</p>
+          <p className="text-yellow-800 font-medium">Next repot</p>
           <p className="text-gray-700">{fmt(plant.next_repotting_at as string)}</p>
         </div>
         <div className="bg-green-50 rounded-xl p-3">

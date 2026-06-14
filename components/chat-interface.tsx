@@ -52,7 +52,7 @@ export function ChatInterface({ plantId }: { plantId: string }) {
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
         {messages.length === 0 && (
-          <p className="text-gray-400 text-sm text-center mt-8">Ask anything about your plant</p>
+          <p className="text-gray-500 text-sm text-center mt-8">Ask anything about your plant</p>
         )}
         {messages.map((m, i) => (
           <div

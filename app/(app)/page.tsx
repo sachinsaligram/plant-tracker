@@ -59,7 +59,7 @@ export default async function FeedPage() {
           </div>
         ) : (
           <>
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-3">
+            <p className="text-xs text-gray-600 font-medium uppercase tracking-wider mb-3">
               {plants.length} plant{plants.length !== 1 ? 's' : ''} · sorted by next watering
             </p>
             <div className="flex flex-col gap-3">
